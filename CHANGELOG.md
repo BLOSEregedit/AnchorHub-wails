@@ -4,6 +4,22 @@
 
 格式参考：[Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)。
 
+## [Unreleased]
+
+### 新增
+
+- 新增 `scripts/create-project.sh`
+  - 支持一条命令从 `template/` 复制模板到目标目录，并自动调用 `scripts/init-project.sh`
+  - 支持交互式与环境变量驱动的 `--non-interactive` 模式
+  - 目标目录非空时默认拒绝，避免误覆盖现有内容
+  - 支持透传 `--upgrade`，初始化后自动安装最新稳定版依赖
+- `scripts/init-project.sh` 补充 `--help` 与未知参数校验
+
+### 文档
+
+- `README.md` 快速使用改为优先推荐 `scripts/create-project.sh`
+- 补充一键创建与非交互式初始化示例
+
 ## [0.2.0] - 版本策略改为「最新稳定版」
 
 ### 变更

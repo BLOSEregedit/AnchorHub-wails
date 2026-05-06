@@ -1,77 +1,124 @@
-# AnchorHub-wails Skill 安装说明
+# AnchorHub-wails AI 接入说明
 
-> 把这个 Skill 安装到 Claude Code，让 AI 自动帮你初始化新的 Wails 项目。
+> 推荐用软链引用仓库内入口文件，避免 Claude、Codex、Gemini 各自维护一份漂移的规则。
 
-## 一、安装方式
+## 一、入口选择
 
-### 方式 A：全局安装（推荐，所有项目可用）
+| 平台 | 推荐入口 |
+|---|---|
+| Claude Code / Claude CLI | `skill/SKILL.md` 或 `adapters/claude/SKILL.md` |
+| Codex CLI | `adapters/codex/SKILL.md` |
+| Codex App | `adapters/codex/SKILL.md` |
+| Gemini CLI | `adapters/gemini/GEMINI.md` |
+| 其他 Agent | `adapters/common/anchorhub-wails.prompt.md` |
 
-```bash
-mkdir -p ~/.claude/skills/anchorhub-wails
-cp /Users/curie/GoProject/AnchorHub-wails/skill/SKILL.md ~/.claude/skills/anchorhub-wails/
+所有入口都应回到同一份公共协议：
+
+```text
+/Users/curie/GoProject/AnchorHub-wails/docs/04-agent-usage-protocol.md
 ```
 
-### 方式 B：项目级安装（仅当前项目可用）
+## 二、Claude Code / Claude CLI
 
-```bash
-mkdir -p .claude/skills/anchorhub-wails
-cp /path/to/AnchorHub-wails/skill/SKILL.md .claude/skills/anchorhub-wails/
-```
-
-### 方式 C：用软链（保持同步更新）
+兼容旧路径，推荐软链到 `skill/`：
 
 ```bash
 mkdir -p ~/.claude/skills
 ln -s /Users/curie/GoProject/AnchorHub-wails/skill ~/.claude/skills/anchorhub-wails
 ```
 
-## 二、使用方式
+如果想直接使用新的薄入口，也可以软链 `adapters/claude`：
 
-### 显式调用
-
-在 Claude Code 中输入：
-
+```bash
+mkdir -p ~/.claude/skills
+ln -s /Users/curie/GoProject/AnchorHub-wails/adapters/claude ~/.claude/skills/anchorhub-wails
 ```
+
+使用示例：
+
+```text
 /skill anchorhub-wails
 ```
 
-### 自然语言触发
+或自然语言：
 
-直接对话即可（Claude 会根据 description 自动识别）：
-
-- "用 AnchorHub 模板新建一个 Wails 项目"
-- "帮我创建一个 Wails 桌面工具，叫 PdfMerger"
-- "复用我那套 Wails 模板，做一个截图工具"
-
-## 三、Skill 会做什么
-
-1. **询问关键参数**：应用名、标题、目标目录、可选模块
-2. **复制模板**：从 `template/` 复制完整骨架到目标目录
-3. **替换占位符**：调用 `scripts/init-project.sh --non-interactive`
-4. **裁剪可选模块**：根据用户选择删除不需要的代码
-5. **输出下一步指引**：但**不会自动**执行 `npm install` / `wails dev` / `git init`
-
-## 四、Skill 不会做什么
-
-为了避免破坏用户环境，Skill 故意**不会**：
-
-- ❌ 自动安装 Go / npm 依赖（避免锁文件冲突）
-- ❌ 自动生成图标（用户得先准备 `icon.png`）
-- ❌ 自动 `git init` 或 commit
-- ❌ 修改已存在的文件（如目标目录非空会警告）
-
-这些操作请用户手动执行，更安全可控。
-
-## 五、更新 Skill
-
-模板有变更时，重新复制即可（用方式 C 软链则自动同步）：
-
-```bash
-cp /Users/curie/GoProject/AnchorHub-wails/skill/SKILL.md ~/.claude/skills/anchorhub-wails/
+```text
+用 AnchorHub-wails 新建一个 Wails 桌面工具，叫 PdfMerger。
 ```
 
-## 六、卸载 Skill
+## 三、Codex CLI
+
+推荐软链到 Codex skills 目录：
 
 ```bash
-rm -rf ~/.claude/skills/anchorhub-wails
+mkdir -p ~/.codex/skills
+ln -s /Users/curie/GoProject/AnchorHub-wails/adapters/codex ~/.codex/skills/anchorhub-wails
 ```
+
+如果当前 Codex CLI 只支持显式引用文件，就让它读取：
+
+```text
+/Users/curie/GoProject/AnchorHub-wails/adapters/codex/SKILL.md
+```
+
+## 四、Codex App
+
+推荐使用仓库内 `adapters/codex/SKILL.md` 作为本地 skill/说明入口。若 App 支持技能目录软链：
+
+```bash
+mkdir -p ~/.codex/skills
+ln -s /Users/curie/GoProject/AnchorHub-wails/adapters/codex ~/.codex/skills/anchorhub-wails
+```
+
+在 Codex App 中使用时，直接说：
+
+```text
+使用 AnchorHub-wails 创建一个新的 Wails 类程序。
+```
+
+## 五、Gemini CLI
+
+如果 Gemini CLI 支持全局上下文文件，推荐引用：
+
+```text
+/Users/curie/GoProject/AnchorHub-wails/adapters/gemini/GEMINI.md
+```
+
+也可以软链到本地约定目录：
+
+```bash
+mkdir -p ~/.gemini/skills
+ln -s /Users/curie/GoProject/AnchorHub-wails/adapters/gemini ~/.gemini/skills/anchorhub-wails
+```
+
+如果 Gemini CLI 只能粘贴 prompt，使用：
+
+```text
+/Users/curie/GoProject/AnchorHub-wails/adapters/common/anchorhub-wails.prompt.md
+```
+
+## 六、一条命令创建项目
+
+任何平台无法自动执行完整流程时，至少应给出这类命令让用户手动运行：
+
+```bash
+bash /Users/curie/GoProject/AnchorHub-wails/scripts/create-project.sh ~/GoProject/MyTool
+```
+
+非交互式示例：
+
+```bash
+TARGET_DIR=~/GoProject/MyTool \
+APP_NAME=MyTool \
+APP_TITLE="我的工具" \
+BUNDLE_ID=com.curie.mytool \
+bash /Users/curie/GoProject/AnchorHub-wails/scripts/create-project.sh --non-interactive
+```
+
+如用户明确要求自动安装依赖，追加 `--upgrade`。
+
+## 七、维护原则
+
+- 不要在四个平台里维护四份完整规则。
+- 修改流程、设计约束或开发规范时，优先改 `docs/04-agent-usage-protocol.md` 和对应核心文档。
+- 平台入口只负责触发、读取上下文和说明平台差异。

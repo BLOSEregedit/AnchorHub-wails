@@ -10,8 +10,8 @@
 <template>
   <div style="padding: 20px 24px">
     <n-space vertical :size="16">
-      <n-card title="欢迎使用 {{APP_TITLE}}" :bordered="false" style="border-radius: 20px">
-        <n-text>{{ '{{' }}APP_DESCRIPTION{{ '}}' }}</n-text>
+      <n-card title="{{APP_TITLE}}" :bordered="false" style="border-radius: 20px">
+        <n-text>{{ appDescription }}</n-text>
       </n-card>
 
       <n-card :bordered="false" style="border-radius: 20px">
@@ -31,6 +31,7 @@ import { ref } from 'vue'
 import { NCard, NSpace, NButton, NText, useMessage } from 'naive-ui'
 
 const message = useMessage()
+const appDescription = '{{APP_DESCRIPTION}}'
 const statusText = ref('就绪')
 
 function handleAction() {

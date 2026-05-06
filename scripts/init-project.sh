@@ -27,10 +27,32 @@ echo ""
 
 NON_INTERACTIVE=false
 DO_UPGRADE=false
+
+usage() {
+    cat <<EOF
+用法：
+  bash scripts/init-project.sh [--non-interactive] [--upgrade]
+
+参数：
+  --non-interactive  从环境变量读取参数，CI 友好
+  --upgrade          替换占位符后自动拉取最新稳定版依赖
+  --help             查看帮助
+EOF
+}
+
 for arg in "$@"; do
     case "$arg" in
         --non-interactive) NON_INTERACTIVE=true ;;
         --upgrade)         DO_UPGRADE=true ;;
+        --help|-h)
+            usage
+            exit 0
+            ;;
+        *)
+            echo "错误：未知参数 $arg"
+            usage
+            exit 1
+            ;;
     esac
 done
 
@@ -104,12 +126,6 @@ fi
 
 echo "开始替换占位符..."
 
-# macOS sed 需要 ''
-SED_INPLACE="sed -i ''"
-if [[ "$(uname)" != "Darwin" ]]; then
-    SED_INPLACE="sed -i"
-fi
-
 replace_in_files() {
     local placeholder=$1
     local value=$2
@@ -126,7 +142,13 @@ replace_in_files() {
     -not -path "./application/*" \
     -not -path "./frontend/dist/*" \
     -not -path "./frontend/wailsjs/*" \
-    -exec $SED_INPLACE "s|{{$placeholder}}|$escaped|g" {} \;
+    -print0 | while IFS= read -r -d '' file; do
+        if [[ "$(uname)" == "Darwin" ]]; then
+            sed -i '' "s|{{$placeholder}}|$escaped|g" "$file"
+        else
+            sed -i "s|{{$placeholder}}|$escaped|g" "$file"
+        fi
+    done
 }
 
 replace_in_files "APP_NAME"        "$APP_NAME"
