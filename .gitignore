@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# 临时测试目录（用模板初始化时可能产生）
+test-output/

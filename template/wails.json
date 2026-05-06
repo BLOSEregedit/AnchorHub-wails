@@ -1,0 +1,27 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "{{APP_NAME}}",
+  "outputfilename": "{{APP_NAME}}",
+  "frontend:install": "npm install",
+  "frontend:build": "npm run build",
+  "frontend:dev:watcher": "npm run dev",
+  "frontend:dev:serverUrl": "auto",
+  "author": {
+    "name": "{{COMPANY_NAME}}",
+    "email": "{{AUTHOR_EMAIL}}"
+  },
+  "info": {
+    "companyName": "{{COMPANY_NAME}}",
+    "productName": "{{APP_NAME}}",
+    "productVersion": "0.1.0",
+    "copyright": "Copyright © {{COPYRIGHT_YEAR}} {{COMPANY_NAME}}",
+    "comments": "{{APP_DESCRIPTION}}"
+  },
+  "darwin": {
+    "icon": "build/darwin/appicon.icns",
+    "bundleId": "{{BUNDLE_ID}}"
+  },
+  "windows": {
+    "icon": "build/windows/icon.ico"
+  }
+}

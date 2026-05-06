@@ -1,0 +1,26 @@
+{
+  "name": "{{APP_NAME_LOWER}}-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "upgrade-latest": "npm install vue@latest vue-router@latest pinia@latest naive-ui@latest @vicons/ionicons5@latest && npm install -D vite@latest @vitejs/plugin-vue@latest typescript@latest vue-tsc@latest @types/node@latest"
+  },
+  "dependencies": {
+    "@vicons/ionicons5": "latest",
+    "naive-ui": "latest",
+    "pinia": "latest",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "latest",
+    "@types/node": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vue-tsc": "latest"
+  }
+}

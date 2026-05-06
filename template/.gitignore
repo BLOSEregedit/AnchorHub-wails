@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# 前端
+frontend/node_modules/
+frontend/dist/
+frontend/wailsjs/
+frontend/package.json.md5
+
+# Wails 构建产物
+build/bin/
+
+# 自定义打包产物
+application/
+
+# 图标中间产物
+icon.iconset/
+appicon.icns
+
+# 日志/临时文件
+*.log
+*.tmp
