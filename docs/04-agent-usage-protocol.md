@@ -216,7 +216,6 @@ wails dev
 - Claude CLI / Claude Code：入口见 `adapters/claude/SKILL.md`。
 - Codex CLI / Codex App：入口见 `adapters/codex/SKILL.md`。
 - Gemini CLI：入口见 `adapters/gemini/GEMINI.md`。
-- 通用 prompt：入口见 `adapters/common/anchorhub-wails.prompt.md`。
 
 入口文件应包含：
 
